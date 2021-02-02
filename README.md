@@ -4,9 +4,9 @@ This is a simple introduction to [Django](https://www.djangoproject.com/) projec
 
 Things you'll need:
 
-* [Python](https://www.python.org/)
-* [Virtualenv](https://virtualenv.pypa.io/en/latest/)
-* [Django](https://www.djangoproject.com/)
+- [Python](https://www.python.org/)
+- [Virtualenv](https://virtualenv.pypa.io/en/latest/)
+- [Django](https://www.djangoproject.com/)
 
 ## What you need to do
 
@@ -23,6 +23,10 @@ Things you'll need:
 ## Run the server
 
 > py manage.py runserver
+
+## Create an App
+
+> py manage.py startapp hub
 
 ## Close the virtualenv
 
