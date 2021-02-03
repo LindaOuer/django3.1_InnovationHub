@@ -8,6 +8,9 @@ class User(models.Model):
     last_name = models.CharField(verbose_name="Nom", max_length=30)
     email = models.EmailField(verbose_name="Email", null=False)
 
+    def __str__(self):
+        return f"{self.first_name} {self.last_name}"
+
 
 class Student(User):
     pass
@@ -41,29 +44,35 @@ class Project(models.Model):
         null=True,
         related_name="project_coach"
     )
-    
+
     members = models.ManyToManyField(
-        to = Student,
-        blank = True,
-        related_name = 'Les_Membres',
-        through = 'MembershipInProject',
+        to=Student,
+        blank=True,
+        related_name='Les_Membres',
+        through='MembershipInProject',
     )
-    
-    
+
+    def __str__(self):
+        return self.project_name
+
+
 class MembershipInProject (models.Model):
     project = models.ForeignKey(
         Project,
-        on_delete = models.CASCADE,
+        on_delete=models.CASCADE,
     )
-    
+
     student = models.ForeignKey(
         Student,
-        on_delete = models.CASCADE,
+        on_delete=models.CASCADE,
     )
-    
+
     time_allocated_by_member = models.IntegerField(
         'Temps alloué par le membre',
     )
-    
+
+    def __str__(self):
+        return f"Member: {self.student.last_name} {self.student.first_name} in {self.project.project_name}"
+
     class Meta:
         unique_together = ("project", "student")
