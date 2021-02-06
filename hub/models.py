@@ -1,12 +1,13 @@
 from django.db import models
+from django.contrib.auth.models import AbstractUser
 
 # Create your models here.
 
 
-class User(models.Model):
-    first_name = models.CharField(verbose_name="Prénom", max_length=30)
+class User(AbstractUser):
+    """ first_name = models.CharField(verbose_name="Prénom", max_length=30)
     last_name = models.CharField(verbose_name="Nom", max_length=30)
-    email = models.EmailField(verbose_name="Email", null=False)
+    email = models.EmailField(verbose_name="Email", null=False) """
 
     def __str__(self):
         return f"{self.first_name} {self.last_name}"
