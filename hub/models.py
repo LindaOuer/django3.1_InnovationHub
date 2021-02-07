@@ -1,6 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 
+from django.core.validators import MinValueValidator, MaxValueValidator
+
 # Create your models here.
 
 
@@ -25,8 +27,16 @@ class Project(models.Model):
     project_name = models.CharField(
         verbose_name="Titre du projet", max_length=50)
     project_duration = models.IntegerField(
-        verbose_name="Durée Estimée", default=0)
-    time_allocated = models.IntegerField(verbose_name="Temps Alloué")
+        verbose_name="Durée Estimée",
+        default=0
+    )
+    time_allocated = models.IntegerField(
+        verbose_name="Temps Alloué",
+        validators=[
+            MinValueValidator(1, 'The minimum time allowed is 1 hour'),
+            MaxValueValidator(10, 'The maximum time allowed is 10 hours')
+        ]
+    )
     needs = models.TextField(verbose_name="Besoins", max_length=250)
     description = models.TextField(max_length=250)
 
