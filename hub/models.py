@@ -2,14 +2,39 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 
 from django.core.validators import MinValueValidator, MaxValueValidator
+from django.core.exceptions import ValidationError
 
 # Create your models here.
 
 
+def is_Esprit_Email(value):
+    """
+    Tests if an email ends with @esprit.tn
+
+    Args:
+        value (any): model or form attribut value
+
+    Returns:
+        Boolean: if required constraints are met
+    """
+
+    if not str(value).endswith('@esprit.tn'):
+        raise ValidationError(
+            'Your email must be @esprit.tn', params={'value': value})
+    return value
+
+
 class User(AbstractUser):
     """ first_name = models.CharField(verbose_name="Prénom", max_length=30)
-    last_name = models.CharField(verbose_name="Nom", max_length=30)
-    email = models.EmailField(verbose_name="Email", null=False) """
+    last_name = models.CharField(verbose_name="Nom", max_length=30)"""
+
+    email = models.EmailField(
+        verbose_name="Email",
+        null=False,
+        validators=[
+            is_Esprit_Email
+        ]
+    )
 
     def __str__(self):
         return f"{self.first_name} {self.last_name}"
