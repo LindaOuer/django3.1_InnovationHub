@@ -41,11 +41,15 @@ class User(AbstractUser):
 
 
 class Student(User):
-    pass
+    class Meta:
+        verbose_name = 'Student'
+        verbose_name_plural = 'Students'
 
 
 class Coach(User):
-    pass
+    class Meta:
+        verbose_name = 'Coach'
+        verbose_name_plural = 'Coachs'
 
 
 class Project(models.Model):
