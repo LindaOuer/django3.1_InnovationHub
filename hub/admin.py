@@ -31,10 +31,21 @@ class StudentAdmin(admin.ModelAdmin):
         ProjectInline
     ]
 
-
+@admin.register(Coach)
+class CoachAdmin(admin.ModelAdmin):
+    list_display = (
+        'last_name',
+        'first_name',
+    )
+    fields = (
+        (
+            'last_name',
+            'first_name',
+        ),
+        'email'
+    )
 admin.site.register(Student, StudentAdmin)
 
 admin.site.register(User)
-admin.site.register(Coach)
 
 admin.site.register(Project)
