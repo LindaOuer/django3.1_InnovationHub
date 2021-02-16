@@ -70,6 +70,9 @@ class Project(models.Model):
     description = models.TextField(max_length=250)
 
     isValid = models.BooleanField(default=False)
+    
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     creator = models.OneToOneField(
         to=Student,
