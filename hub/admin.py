@@ -57,6 +57,21 @@ class MembershipInline (admin.StackedInline):
     model = MembershipInProject
     extra = 1
 
+class ProjetDurationListFilter(admin.SimpleListFilter):
+    title = 'Duration'
+    parameter_name = 'duration'
+
+    def lookups(self, request, model_admin):
+        return (
+            ('1 month', ("less than a month")),
+            ('3 months', ("More than 3 months"))
+        )
+
+    def queryset(self, request, queryset):
+        if self.value() == '1 month':
+            return queryset.filter(project_duration__lte=30)
+        if self.value() == '3 months':
+            return queryset.filter(project_duration__lte=90, project_duration__gte=30)
 
 class ProjectAdmin(admin.ModelAdmin):
     list_display = (
@@ -71,6 +86,7 @@ class ProjectAdmin(admin.ModelAdmin):
     list_filter = (
         'creator',
         'isValid',
+        ProjetDurationListFilter,
     )
 
     date_hierarchy = 'updated_at'
