@@ -68,8 +68,13 @@ class ProjectAdmin(admin.ModelAdmin):
         'supervisor'
     )
 
+    list_filter = (
+        'creator',
+        'isValid',
+    )
+
     date_hierarchy = 'updated_at'
-    
+
     # radio_fields = {"supervisor": admin.VERTICAL}
     autocomplete_fields = ['supervisor']
     readonly_fields = ('created_at',)
@@ -78,7 +83,7 @@ class ProjectAdmin(admin.ModelAdmin):
         (
             'Etat',
             {
-                'fields': ('isValid','created_at')
+                'fields': ('isValid', 'created_at')
             }
         ),
         (
