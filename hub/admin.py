@@ -1,4 +1,4 @@
-from django.contrib import admin
+from django.contrib import admin, messages
 from .models import Student, Coach, User, Project, MembershipInProject
 
 # Register your models here.
@@ -57,6 +57,7 @@ class MembershipInline (admin.StackedInline):
     model = MembershipInProject
     extra = 1
 
+
 class ProjetDurationListFilter(admin.SimpleListFilter):
     title = 'Duration'
     parameter_name = 'duration'
@@ -73,7 +74,41 @@ class ProjetDurationListFilter(admin.SimpleListFilter):
         if self.value() == '3 months':
             return queryset.filter(project_duration__lte=90, project_duration__gte=30)
 
+
+def set_Valid(modeladmin, request, queryset):
+    rows_updated = queryset.update(isValid=True)
+    if rows_updated == 1:
+        message = "1 project was"
+    else:
+        message = f"{rows_updated} projects were"
+    messages.success(
+        request, message="%s successfully marked as valid" % message)
+
+
+set_Valid.short_description = "Validate"
+
+
 class ProjectAdmin(admin.ModelAdmin):
+
+    def set_to_No_Valid(self, request, queryset):
+        rows_NoValid = queryset.filter(isValid=False)
+        if rows_NoValid.count() > 0:
+            messages.error(
+                request, f"{rows_NoValid.count()} projects are already marked as No Valid")
+        else:
+            rows_updated = queryset.update(isValid=False)
+            if rows_updated == 1:
+                message = "1 project was"
+            else:
+                message = f"{rows_updated} projects were"
+            self.message_user(request, level='success',
+                              message="%s successfully marked as not valid" % message)
+
+    set_to_No_Valid.short_description = "Refuse"
+    actions = [set_Valid, 'set_to_No_Valid']
+    actions_on_bottom = True
+    actions_on_top = True
+
     list_display = (
         'project_name',
         'created_at',
