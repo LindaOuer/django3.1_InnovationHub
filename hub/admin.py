@@ -50,6 +50,7 @@ class CoachAdmin(admin.ModelAdmin):
         ),
         'email'
     )
+    search_fields = ['last_name']
 
 
 class MembershipInline (admin.StackedInline):
@@ -66,14 +67,18 @@ class ProjectAdmin(admin.ModelAdmin):
         'creator',
         'supervisor'
     )
-    
+
     date_hierarchy = 'updated_at'
+    
+    # radio_fields = {"supervisor": admin.VERTICAL}
+    autocomplete_fields = ['supervisor']
+    readonly_fields = ('created_at',)
 
     fieldsets = (
         (
             'Etat',
             {
-                'fields': ('isValid',)
+                'fields': ('isValid','created_at')
             }
         ),
         (
