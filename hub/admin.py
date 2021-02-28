@@ -21,11 +21,13 @@ class ProjectInline(admin.TabularInline):
 
 class StudentAdmin(admin.ModelAdmin):
     list_display = (
+        'username',
         'last_name',
         'first_name',
         'email'
     )
     fields = (
+        'username',
         ('last_name', 'first_name'),
         'email'
     )
@@ -42,8 +44,10 @@ class CoachAdmin(admin.ModelAdmin):
     list_display = (
         'last_name',
         'first_name',
+        'username',
     )
     fields = (
+        'username',
         (
             'last_name',
             'first_name',
