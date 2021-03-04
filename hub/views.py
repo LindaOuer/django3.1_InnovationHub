@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse
 
 from .models import Project
@@ -28,5 +28,16 @@ def details_project(request, id):
         'hub/details_project.html',
         {
             'project': project,
+        }
+    )
+    
+    
+def projectDetails(request, id):
+    project = get_object_or_404(Project, pk=id)
+    return render(
+        request, 
+        'hub/details_project.html', 
+        {
+            'project': project
         }
     )
