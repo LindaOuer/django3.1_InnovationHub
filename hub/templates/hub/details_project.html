@@ -1,3 +1,29 @@
-<h1>{{ project.project_name}} </h1>
-<h3>{{ project.project_duration}}</h3>
-<p>{{ project.description}}</p>
+{% extends "hub/base.html" %}
+
+{% block content %} 
+<div class="card border-secondary mb-3">
+    <div class="card-header">
+        {{ project.project_name}} 
+        
+    </div>
+    <div class="card-body">
+        <h5 class="card-title">Duration</h5>
+        <p class="card-text">
+            {{ project.project_duration}}
+        </p>
+        <h5 class="card-title">Description</h5>
+        <p class="card-text">
+            {{ project.description}}
+        </p>
+        <h5 class="card-title">Needs</h5>
+        <p class="card-text">
+            {{ project.needs}}
+        </p>
+        <a href="#" class="btn btn-outline-dark">participate</a>
+    </div>
+    <div class="card-footer text-muted">
+        {{ project.updated_at}}
+    </div>
+</div>
+
+{% endblock %}
