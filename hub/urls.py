@@ -1,9 +1,11 @@
 from django.urls import path
-from .views import homePage, list_Projects, details_project, projectDetails
+from .views import homePage, list_Projects, details_project, projectDetails, ProjectListView
 
 urlpatterns = [
-    path('home', homePage, name="home"),
-    path('', list_Projects, name="list_projects"),    
-    path('project/<int:id>', details_project, name="details_project"),    
-    path('project404/<int:id>', projectDetails, name="details_project_404"),    
+    #path('home', homePage, name="home"),
+    #path('', list_Projects, name="list_projects"),
+    path('project/<int:id>', details_project, name="details_project"),
+    path('project404/<int:id>', projectDetails, name="details_project_404"),
+    # class based
+    path('project/', ProjectListView.as_view(), name="project_list"),
 ]
