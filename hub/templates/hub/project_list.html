@@ -19,7 +19,7 @@
             <td>{{p.project_duration}} </td>
             <td>{{p.isValid}} </td>
             <td>
-                <a href="{% url 'details_project' p.id %}" class="btn btn-info">More</a>
+                <a href="{% url 'project_detail' p.id %}" class="btn btn-info">More</a>
             </td>
         </tr>
         {% endfor %}

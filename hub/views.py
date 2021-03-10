@@ -1,6 +1,6 @@
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, render
-from django.views.generic import ListView
+from django.views.generic import ListView, DetailView
 
 from .models import Project
 
@@ -47,3 +47,7 @@ def projectDetails(request, id):
 class ProjectListView(ListView):
     model = Project
     #template_name = "hub\project_list.html"
+
+
+class ProjectDetailView(DetailView):
+    model = Project
