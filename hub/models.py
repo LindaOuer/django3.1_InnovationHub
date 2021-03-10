@@ -44,7 +44,7 @@ class User(AbstractUser):
 
 class Student(User):
     def get_absolute_url(self):
-        return reverse('home_page')
+        return reverse('student_List')
 
     class Meta:
         verbose_name = 'Student'

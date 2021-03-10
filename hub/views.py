@@ -1,6 +1,6 @@
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, render, redirect
-from django.views.generic import ListView, DetailView, CreateView
+from django.views.generic import ListView, DetailView, CreateView, UpdateView
 
 from .models import Project, Student
 from .forms import StudentForm, StudentModelForm
@@ -107,7 +107,16 @@ class ProjectDetailView(DetailView):
     model = Project
 
 
+class StudentListView(ListView):
+    model = Student
+
+
 class StudentCreateView(CreateView):
+    model = Student
+    form_class = StudentModelForm
+    #template_name = "hub\student_form.html"
+
+class StudentUpdateView(UpdateView):
     model = Student
     form_class = StudentModelForm
     #template_name = "hub\student_form.html"
