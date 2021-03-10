@@ -1,6 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 
+from django.shortcuts import reverse
+
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.core.exceptions import ValidationError
 
@@ -41,6 +43,9 @@ class User(AbstractUser):
 
 
 class Student(User):
+    def get_absolute_url(self):
+        return reverse('home_page')
+
     class Meta:
         verbose_name = 'Student'
         verbose_name_plural = 'Students'
@@ -70,7 +75,7 @@ class Project(models.Model):
     description = models.TextField(max_length=250)
 
     isValid = models.BooleanField(default=False)
-    
+
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

@@ -1,6 +1,6 @@
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, render, redirect
-from django.views.generic import ListView, DetailView
+from django.views.generic import ListView, DetailView, CreateView
 
 from .models import Project, Student
 from .forms import StudentForm, StudentModelForm
@@ -93,7 +93,7 @@ def add_student(request):
             return redirect('project_list')
         else:
             return render(request, 'hub/student_add.html',
-                        {'msg_error': "Error when adding a student", 'form': form})
+                          {'msg_error': "Error when adding a student", 'form': form})
 
 # class based views
 
@@ -105,3 +105,9 @@ class ProjectListView(ListView):
 
 class ProjectDetailView(DetailView):
     model = Project
+
+
+class StudentCreateView(CreateView):
+    model = Student
+    form_class = StudentModelForm
+    #template_name = "hub\student_form.html"
