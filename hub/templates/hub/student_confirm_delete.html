@@ -1,0 +1,14 @@
+{% extends "hub/base.html" %}
+
+{% block content %} 
+
+<form action="" method="post">
+    {% csrf_token %}
+    <h2>Are you sure you want to delete the student - "{{object.username}}"? </h2>
+    <br>
+    <input type="submit" value="Yes" class="btn btn-outline-danger">
+    <br>
+    <a href="../" class="btn btn-light">No</a>
+</form>
+
+{% endblock %}

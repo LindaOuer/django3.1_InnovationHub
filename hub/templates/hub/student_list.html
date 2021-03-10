@@ -35,7 +35,7 @@
                 <a href="{% url 'student_Update' s.id %}" class="btn btn-secondary">Edit</a>
             </td>
             <td>
-                <a href="{% url 'student_Create' %}" class="btn btn-danger">Delete</a>
+                <a href="{% url 'student_Delete' s.id %}" class="btn btn-danger">Delete</a>
             </td>
         </tr>
         {% endfor %}
