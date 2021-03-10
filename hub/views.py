@@ -3,7 +3,7 @@ from django.shortcuts import get_object_or_404, render, redirect
 from django.views.generic import ListView, DetailView
 
 from .models import Project, Student
-from .forms import StudentForm
+from .forms import StudentForm, StudentModelForm
 
 
 # function based views
@@ -66,10 +66,10 @@ def studentAdd(request):
     if request.method == "POST":
         form = StudentForm(request.POST)
         if form.is_valid():
-            #print(form.cleaned_data)
-            #print(form.cleaned_data.get('username'))
+            # print(form.cleaned_data)
+            # print(form.cleaned_data.get('username'))
             # Student.objects.create(**form.cleaned_data)
-            
+
             Student.objects.create(
                 first_name=form.cleaned_data.get('first_name'),
                 last_name=form.cleaned_data['last_name'],
@@ -79,6 +79,21 @@ def studentAdd(request):
         #    print(form.errors)
 
     return render(request, 'hub/student_add.html', {'form': form})
+
+
+def add_student(request):
+    if request.method == "GET":
+        form = StudentModelForm()
+        return render(request, 'hub/student_add.html', {'form': form})
+    if request.method == "POST":
+        form = StudentModelForm(request.POST)
+        if form.is_valid():
+            postStudent = form.save(commit=False)
+            postStudent.save()
+            return redirect('project_list')
+        else:
+            return render(request, 'hub/student_add.html',
+                        {'msg_error': "Error when adding a student", 'form': form})
 
 # class based views
 
