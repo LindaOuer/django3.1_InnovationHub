@@ -1,0 +1,14 @@
+{% extends "hub/base.html" %}
+
+{% block content %} 
+
+<form action="" method="POST">
+    {% csrf_token %}
+    <input type="text" name="username" placeholder="Your username" class="form-control">
+    <input type="text" name="first_name" placeholder="Your first name" class="form-control">
+    <input type="text" name="last_name" placeholder="Your last name" class="form-control">
+    <input type="email" name="email" placeholder="Your email" class="form-control">
+    <input type="submit" value="Save">
+</form>
+
+{% endblock %}
