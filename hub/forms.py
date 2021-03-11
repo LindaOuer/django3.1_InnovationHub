@@ -1,6 +1,6 @@
 from django import forms
 
-from .models import Project, Student
+from .models import Project, Student, MembershipInProject
 
 
 class StudentForm(forms.Form):
@@ -19,11 +19,12 @@ class StudentForm(forms.Form):
     last_name = forms.CharField(label='Last Name')
     email = forms.EmailField(label='Email')
 
+
 class StudentModelForm(forms.ModelForm):
     class Meta:
         model = Student
-        # fields = '__all__' # all fields from AbstractUser even groups and user permessions 
-        fields = ['username', 'first_name', 'last_name' ,'email']
+        # fields = '__all__' # all fields from AbstractUser even groups and user permessions
+        fields = ['username', 'first_name', 'last_name', 'email']
         # exclude = ['email']
         help_texts = {
             'last_name': 'Your name here!',
@@ -34,3 +35,29 @@ class StudentModelForm(forms.ModelForm):
             },
 
         }
+
+
+class ProjectForm(forms.ModelForm):
+    members = forms.ModelMultipleChoiceField(
+        queryset=Student.objects.all(),
+        widget=forms.CheckboxSelectMultiple
+    )
+    time_allocated_by_member = forms.IntegerField(initial=0)
+
+    class Meta:
+        model = Project
+        fields = '__all__'
+        #exclude = ['members', ]
+
+    def save(self, commit=True):
+
+        # Save the child so we have an ID for the m2m
+        project = super(ProjectForm, self).save()
+        print(self.cleaned_data)
+        """
+        time_allocated_by_member = self.cleaned_data.get('time_allocated_by_member')
+        time_allocated_by_member = Project.objects.get(time_allocated_by_member=time_allocated_by_member)
+        
+        MembershipInProject.objects.create(family=family, project=project, time_allocated_by_member=time_allocated_by_member)
+        """
+        return project

@@ -100,6 +100,9 @@ class Project(models.Model):
         through='MembershipInProject',
     )
 
+    def get_absolute_url(self):
+        return reverse('project_list')
+
     def __str__(self):
         return self.project_name
 
@@ -116,7 +119,7 @@ class MembershipInProject (models.Model):
     )
 
     time_allocated_by_member = models.IntegerField(
-        'Temps alloué par le membre',
+        'Temps alloué par le membre', default=0,
     )
 
     def __str__(self):

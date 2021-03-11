@@ -4,7 +4,7 @@ from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 
 from .models import Project, Student
-from .forms import StudentForm, StudentModelForm
+from .forms import StudentForm, StudentModelForm, ProjectForm
 
 
 # function based views
@@ -108,6 +108,12 @@ class ProjectDetailView(DetailView):
     model = Project
 
 
+class ProjectCreateView(CreateView):
+    model = Project
+    form_class = ProjectForm
+
+
+# Student Model
 class StudentListView(ListView):
     model = Student
 
