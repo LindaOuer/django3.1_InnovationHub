@@ -96,6 +96,40 @@ def add_student(request):
             return render(request, 'hub/student_add.html',
                           {'msg_error': "Error when adding a student", 'form': form})
 
+
+def add_project(request):
+    if request.method == "GET":
+        form = ProjectForm()
+        return render(request, 'hub/project_form.html', {'form': form})
+    if request.method == "POST":
+        form = ProjectForm(request.POST)
+        if form.is_valid():
+            print((form.cleaned_data.get('members')))
+            form.save()
+            return redirect('project_list')
+        else:
+            return render(request, 'hub/project_form.html',
+                          {'msg_error': "Error when adding a project", 'form': form})
+
+
+def delete_project(request, id):
+    #project = Project.objects.get(pk=id)
+    project = get_object_or_404(Project, pk=id)
+    project.delete()
+    return redirect('project_list')
+
+
+def update_project(request, id):
+    project = get_object_or_404(Project, pk=id)
+    form = ProjectForm(instance=project)
+    if request.method=='POST':
+        form = ProjectForm(request.POST, instance=project)
+        if form.is_valid():
+            form.save()
+            return redirect('project_list')
+        
+    return render(request, 'hub/project_form.html', {'form': form, 'id': id})
+
 # class based views
 
 
@@ -108,12 +142,14 @@ class ProjectDetailView(DetailView):
     model = Project
 
 
-class ProjectCreateView(CreateView):
+"""class ProjectCreateView(CreateView):
     model = Project
     form_class = ProjectForm
-
+"""
 
 # Student Model
+
+
 class StudentListView(ListView):
     model = Student
 

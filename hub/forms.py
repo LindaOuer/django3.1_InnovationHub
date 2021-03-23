@@ -42,7 +42,7 @@ class ProjectForm(forms.ModelForm):
         queryset=Student.objects.all(),
         widget=forms.CheckboxSelectMultiple
     )
-    time_allocated_by_member = forms.IntegerField(initial=0)
+    time_allocated_by_member = forms.IntegerField()
 
     class Meta:
         model = Project
@@ -51,13 +51,17 @@ class ProjectForm(forms.ModelForm):
 
     def save(self, commit=True):
 
-        # Save the child so we have an ID for the m2m
+        # Save the project so we have an ID for the m2m
         project = super(ProjectForm, self).save()
         print(self.cleaned_data)
+
+        time_allocated_by_member = self.cleaned_data.get(
+            'time_allocated_by_member')
+        print(time_allocated_by_member)
+        """time_allocated_by_member = Project.objects.get(time_allocated_by_member=time_allocated_by_member)
         """
-        time_allocated_by_member = self.cleaned_data.get('time_allocated_by_member')
-        time_allocated_by_member = Project.objects.get(time_allocated_by_member=time_allocated_by_member)
-        
-        MembershipInProject.objects.create(family=family, project=project, time_allocated_by_member=time_allocated_by_member)
-        """
+
+        MembershipInProject.objects.update(
+            time_allocated_by_member=time_allocated_by_member)
+
         return project
