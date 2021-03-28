@@ -1,6 +1,8 @@
 from django import forms
 
-from .models import Project, Student, MembershipInProject
+from django.contrib.auth.forms import UserCreationForm
+
+from .models import Project, Student, MembershipInProject, User
 
 
 class StudentForm(forms.Form):
@@ -65,3 +67,10 @@ class ProjectForm(forms.ModelForm):
             time_allocated_by_member=time_allocated_by_member)
 
         return project
+
+
+class CustomUserCreationForm(UserCreationForm):
+
+    class Meta:
+        model = User
+        fields = ('username', 'first_name', 'last_name', 'email')

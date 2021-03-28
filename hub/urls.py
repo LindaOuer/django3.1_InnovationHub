@@ -6,7 +6,8 @@ urlpatterns = [
      #path('home', homePage, name="home"),
      path('', list_Projects, name="home_page"),
      path('login/', LoginPage.as_view(), name="hub_login"),
-          path('profile/', profile, name="profile"),
+     path('profile/', profile, name="profile"),
+     path('register/', register, name="register"),
      #path('project/<int:id>', details_project, name="details_project"),
      path('project404/<int:id>', projectDetails, name="details_project_404"),
      # class based

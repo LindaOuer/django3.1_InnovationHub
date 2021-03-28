@@ -3,12 +3,15 @@ from django.shortcuts import get_object_or_404, render, redirect
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 
+from django.contrib import messages
+
 from django.contrib.auth.views import LoginView
+from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 from .models import Project, Student
-from .forms import StudentForm, StudentModelForm, ProjectForm
+from .forms import StudentForm, StudentModelForm, ProjectForm, CustomUserCreationForm
 
 
 # function based views
@@ -187,6 +190,32 @@ class LoginPage(LoginView):
     def get_success_url(self):
         return reverse_lazy("project_create")
 
+
 @login_required
 def profile(request):
     return render(request, 'hub/profile.html')
+
+
+def register(request):
+    form = CustomUserCreationForm()
+
+    if request.method == 'POST':
+        form = CustomUserCreationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            username = form.cleaned_data.get('username')
+            password = form.cleaned_data.get('password')
+
+            user = authenticate(request, username=username, password=password)
+
+            if user is not None:
+                login(request, user)
+                messages.success(
+                    request, f'The account of {username} was successfully created')
+                return redirect('home_page')
+            else:
+                messages.warning(
+                    request, f'Something went wrong, please try to login')
+                return redirect('login')
+
+    return render(request, "hub/register.html", {'form': form})
