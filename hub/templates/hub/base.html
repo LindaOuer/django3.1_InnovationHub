@@ -9,7 +9,11 @@
     <title> Welcome to - {% block title %} {% endblock %} </title>
 </head>
 <body>
-    {% include "hub/header.html" with greeting="Hello"%}
+    {% if user.is_authenticated %}
+        {% include "hub/header.html" with greeting="Hello" username=request.user %}
+    {% else %}
+        {% include "hub/header.html" with greeting="Hello"%}
+    {% endif %}
     {% block header %}
     {% endblock header %}
 
