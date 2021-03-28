@@ -4,6 +4,8 @@ from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 
 from django.contrib.auth.views import LoginView
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 from .models import Project, Student
 from .forms import StudentForm, StudentModelForm, ProjectForm
@@ -25,6 +27,7 @@ def list_Projects(request):
     )
 
 
+@login_required
 def details_project(request, id):
     project = Project.objects.get(pk=id)
     return render(
@@ -36,6 +39,7 @@ def details_project(request, id):
     )
 
 
+@login_required
 def projectDetails(request, id):
     project = get_object_or_404(Project, pk=id)
     return render(
@@ -140,7 +144,7 @@ class ProjectListView(ListView):
     #template_name = "hub\project_list.html"
 
 
-class ProjectDetailView(DetailView):
+class ProjectDetailView(LoginRequiredMixin, DetailView):
     model = Project
 
 
@@ -182,3 +186,7 @@ class LoginPage(LoginView):
 
     def get_success_url(self):
         return reverse_lazy("project_create")
+
+@login_required
+def profile(request):
+    return render(request, 'hub/profile.html')
