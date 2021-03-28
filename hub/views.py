@@ -3,6 +3,8 @@ from django.shortcuts import get_object_or_404, render, redirect
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 
+from django.contrib.auth.views import LoginView
+
 from .models import Project, Student
 from .forms import StudentForm, StudentModelForm, ProjectForm
 
@@ -122,12 +124,12 @@ def delete_project(request, id):
 def update_project(request, id):
     project = get_object_or_404(Project, pk=id)
     form = ProjectForm(instance=project)
-    if request.method=='POST':
+    if request.method == 'POST':
         form = ProjectForm(request.POST, instance=project)
         if form.is_valid():
             form.save()
             return redirect('project_list')
-        
+
     return render(request, 'hub/project_form.html', {'form': form, 'id': id})
 
 # class based views
@@ -169,3 +171,14 @@ class StudentUpdateView(UpdateView):
 class StudentDeleteView(DeleteView):
     model = Student
     success_url = reverse_lazy('student_List')
+
+
+# Login - Logout
+
+class LoginPage(LoginView):
+    template_name = "hub\login.html"
+    fields = '__all__'
+    redirect_authentcated_user = True
+
+    def get_success_url(self):
+        return reverse_lazy("project_create")
